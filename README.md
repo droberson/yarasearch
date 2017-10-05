@@ -2,6 +2,8 @@
 
 This will scan a directory for files that match a yara rule.
 
+Pairs nicely with https://github.com/Yara-Rules/rules
+
 ## Example usage:
 
 ```
