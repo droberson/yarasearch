@@ -55,16 +55,14 @@ def main():
     print("[+] yarasearch.py -- by Daniel Roberson")
     print()
 
-    if not os.path.isdir(args.rules):
-        """Single rule file"""
+    if not os.path.isdir(args.rules): # Read single rule file
         try:
             rules = yara.compile(args.rules)
         except yara.SyntaxError as err:
             print("[-] Syntax error in rule file %s: %s" % (args.path, err))
             print("[-] Exiting.")
             return os.EX_USAGE
-    else:
-        """Read every rule file in the directory"""
+    else: # Read every file in the directory as rules
         print("[-] Directory support not implemented yet")
         return os.EX_USAGE
 
