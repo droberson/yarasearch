@@ -40,7 +40,7 @@ import yara
 def main():
     """yarasearch.py entry point"""
 
-    description = "example: ./yarascan.py --path /mnt/smb --rules rules.d/"
+    description = "example: ./yarasearch.py --path /mnt/smb --rules rules.d/"
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("-p",
                         "--path",
@@ -52,7 +52,7 @@ def main():
                         help="File or directory containing yara rules")
     args = parser.parse_args()
 
-    print("[+] yarascan.py -- by Daniel Roberson")
+    print("[+] yarasearch.py -- by Daniel Roberson")
     print()
 
     if not os.path.isdir(args.rules):
