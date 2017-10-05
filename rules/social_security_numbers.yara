@@ -7,6 +7,6 @@ rule SocialSecurityNumbers
 	$string2 = "SSN"
 
     condition:
-        $re1 or $re2 or $string1 or $string2
+        any of them
 }
 
