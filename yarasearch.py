@@ -78,7 +78,7 @@ def main():
             if matches:
                 hits += 1
                 print("  [+] %s -- Matching rule: %s" %
-                      (os.path.relpath(try_file), str(matches).strip("[]")))
+                      (os.path.realpath(try_file), str(matches).strip("[]")))
 
     print()
     print("[+] %d files scanned, %d hits." % (filecount, hits))
