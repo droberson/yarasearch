@@ -50,6 +50,11 @@ def main():
                         "--rules",
                         default="/etc/yarasearch.rules.d",
                         help="File or directory containing yara rules")
+    parser.add_argument("-t",
+                        "--timeout",
+                        default=60,
+                        required=False,
+                        help="Seconds to analyze a file before timing out")
     args = parser.parse_args()
 
     print("[+] yarasearch.py -- by Daniel Roberson")
@@ -75,7 +80,7 @@ def main():
             filecount += 1
             try_file = os.path.join(root, filename)
             try:
-                matches = rules.match(try_file, timeout=1)
+                matches = rules.match(try_file, timeout=args.timeout)
                 if matches:
                     hits += 1
                     print("  [+] %s -- Matching rule: %s" %
@@ -91,4 +96,8 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        print("[-] Caught ^C. Exiting.")
+        sys.exit(os.EX_USAGE)
