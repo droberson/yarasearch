@@ -74,11 +74,15 @@ def main():
         for filename in files:
             filecount += 1
             try_file = os.path.join(root, filename)
-            matches = rules.match(try_file, timeout=60)
-            if matches:
-                hits += 1
-                print("  [+] %s -- Matching rule: %s" %
-                      (os.path.realpath(try_file), str(matches).strip("[]")))
+            try:
+                matches = rules.match(try_file, timeout=1)
+                if matches:
+                    hits += 1
+                    print("  [+] %s -- Matching rule: %s" %
+                          (os.path.realpath(try_file),
+                           str(matches).strip("[]")))
+            except yara.TimeoutError:
+                print("  [-] %s -- TIMEOUT" % os.path.realpath(try_file))
 
     print()
     print("[+] %d files scanned, %d hits." % (filecount, hits))
