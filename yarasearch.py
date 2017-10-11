@@ -35,6 +35,7 @@ import os
 import sys
 import argparse
 import yara
+import magic
 
 
 def main():
@@ -52,6 +53,7 @@ def main():
                         help="File or directory containing yara rules")
     parser.add_argument("-t",
                         "--timeout",
+                        type=int,
                         default=60,
                         required=False,
                         help="Seconds to analyze a file before timing out")
@@ -79,14 +81,23 @@ def main():
         for filename in files:
             filecount += 1
             try_file = os.path.join(root, filename)
+
+            m = magic.open(magic.NONE)
+            m.load()
+            magic_type = m.file(try_file)
+            m.close()
+
             try:
                 matches = rules.match(try_file, timeout=args.timeout)
                 if matches:
                     hits += 1
                     print("  [+] %s" % os.path.realpath(try_file))
-                    print("      Matches rule: %s" % str(matches).strip("[]")))
+                    print("      Matches rule: %s" % str(matches).strip("[]"))
+                    print("      File type:    %s" % magic_type)
             except yara.TimeoutError:
-                print("  [-] %s -- TIMEOUT" % os.path.realpath(try_file))
+                print("  [-] %s" % os.path.realpath(try_file))
+                print("      Timed out after %d seconds" % args.timeout)
+                print("      File type: %s" % magic_type)
 
     print()
     print("[+] %d files scanned, %d hits." % (filecount, hits))
