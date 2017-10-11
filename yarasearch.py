@@ -83,9 +83,8 @@ def main():
                 matches = rules.match(try_file, timeout=args.timeout)
                 if matches:
                     hits += 1
-                    print("  [+] %s -- Matching rule: %s" %
-                          (os.path.realpath(try_file),
-                           str(matches).strip("[]")))
+                    print("  [+] %s" % os.path.realpath(try_file))
+                    print("      Matches rule: %s" % str(matches).strip("[]")))
             except yara.TimeoutError:
                 print("  [-] %s -- TIMEOUT" % os.path.realpath(try_file))
 
